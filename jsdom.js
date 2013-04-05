@@ -1,4 +1,5 @@
 var jsdom = require("jsdom");
+var redis = require('redis').createClient();
 var fs = require('fs');
 var jquery = fs.readFileSync("./jquery.js").toString();
 
@@ -34,8 +35,14 @@ function read(id){
                }
             });
             console.log(links);
-            window.close();
-            read(id-1)
+            redis.sadd('mb:users', links.mb_id, function(){
+              var key = 'mb:user:'+links.mb_id;
+              console.log(key);
+              redis.hmset(key, links, function(){
+                window.close();
+                read(id-1)
+              });
+            });
           }});
         } else {
           console.log('--no data--');

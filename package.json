@@ -7,5 +7,6 @@
     , "cheerio" : ""
     , "phantomjs" : ""
     , "jsdom" : ""
+    , "redis" : "0.7.2"
   }
 }
